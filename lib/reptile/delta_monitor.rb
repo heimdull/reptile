@@ -75,7 +75,7 @@ module Reptile
     # for the current database.
     def self.get_tables
       tables = []
-      connection.execute('SHOW TABLES').each { |row| tables << row }
+      connection.execute('SHOW TABLES').each { |row| tables << row[0] }
       tables
     end
   
