@@ -205,17 +205,13 @@ module Reptile
     end
   
     def self.send_email(email)
-      return unless configs['email_server'] && configs['email_port'] && configs['email_domain'] && 
-                    configs['email_password'] && configs['email_auth_type']
+      return unless configs['email_server']
+      # && configs['email_port']
+      # && configs['email_domain'] && configs['email_password'] && configs['email_auth_type']
       
       # TODO: could do Net::SMTP.respond_to?(enable_tls) ? enable_TLS : puts "Install TLS gem to use SSL/TLS"
-      Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
-      Net::SMTP.start(configs['email_server'], 
-                        configs['email_port'], 
-                        configs['email_domain'], 
-                        get_sender,
-                        configs['email_password'], 
-                        configs['email_auth_type'].to_sym) do |smtp|
+      # Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+      Net::SMTP.start(configs['email_server']) do |smtp|
           email.recipients.each do |email_addy|
             hdr = "From: #{email.sender}\n"
             hdr += "To: #{email_addy} <#{email_addy}>\n" 
