@@ -37,7 +37,7 @@ module Reptile
     # Thump thump.
     def self.write(name, configs)
       self.connect(configs)
-      heartbeat = Heartbeat.create(:unix_time => Time.now.to_i, :db_time => "NOW()")
+      heartbeat = Heartbeat.create(:unix_time => Time.now.to_i, :db_time => Time.now)
       get_logger.info "Wrote heartbeat to #{name} at #{Time.at(heartbeat.unix_time)}"
     end
 
@@ -48,7 +48,7 @@ module Reptile
       current_time = Time.now
 
       delay = nil
-      heartbeat = Heartbeat.find(:first, :order => 'db_time DESC')
+      heartbeat = Heartbeat.find(:first, :order => 'unix_time DESC')
     
        # No heartbeats at all!
       if heartbeat.nil?
